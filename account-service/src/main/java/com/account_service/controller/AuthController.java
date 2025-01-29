@@ -1,8 +1,7 @@
 package com.account_service.controller;
 
 
-import com.account_service.exception.InvalidCredentialsException;
-import com.account_service.utils.JwtService;
+import com.account_service.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -13,18 +12,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-
 @RestController
 @RequestMapping("/api/auth")
 @Tag(name = "Auth Controller", description = "Api for login management")
 public class AuthController {
 
-    private final JwtService jwtService;
+    private final AuthService authService;
 
     @Autowired
-    public AuthController(JwtService jwtService) {
-        this.jwtService = jwtService;
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
 
     @Operation(summary = "Enpoint for managing login users", description = "login users for get token")
@@ -33,17 +30,8 @@ public class AuthController {
             @ApiResponse(responseCode = "500", description = "Invalid Credentials")
     })
     @PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password) {
-        var roles = new ArrayList<String>();
-        if ("user".equals(username) && "password".equals(password)) {
-            roles.add("USER");
-            return jwtService.generateToken(username, roles);
-        } else if ("admin".equals(username) && "password".equals(password)) {
-            roles.add("ADMIN");
-            return jwtService.generateToken(username, roles);
-        } else {
-            throw new InvalidCredentialsException("User or password incorrect");
-        }
+    public String login(@RequestParam String username, @RequestParam String pwd) {
+        return authService.login(username, pwd);
     }
 }
 
