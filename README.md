@@ -51,8 +51,8 @@ mvn spring-boot:run
 
 | Servicio         | URL Base               |
 |-----------------|------------------------|
-| accounts         | `http://localhost:9090/transactions/swagger-ui.html` |
-| transactions   | `http://localhost:9091/transactions/swagger-ui.html` |
+| accounts         | `http://localhost:9090/swagger-ui.html` |
+| transactions   | `http://localhost:9091/swagger-ui.html` |
 
 ## 🛠️ Configuración de properties adicionales
 
